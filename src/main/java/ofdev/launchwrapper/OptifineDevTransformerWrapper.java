@@ -1,14 +1,5 @@
 package ofdev.launchwrapper;
 
-import static java.lang.reflect.Modifier.isPrivate;
-import static org.objectweb.asm.Opcodes.ACC_FINAL;
-import static org.objectweb.asm.Opcodes.ACC_PRIVATE;
-import static org.objectweb.asm.Opcodes.ACC_PROTECTED;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
-import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
-import static org.objectweb.asm.Opcodes.RETURN;
-
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.launchwrapper.Launch;
 import ofdev.common.Utils;
@@ -18,13 +9,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.ClassRemapper;
 import org.objectweb.asm.commons.Remapper;
 import org.objectweb.asm.commons.RemappingClassAdapter;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldNode;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.LdcInsnNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,26 +18,20 @@ import java.lang.reflect.Modifier;
 import java.net.JarURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.nio.file.*;
+import java.util.*;
 import java.util.zip.ZipFile;
+
+import static java.lang.reflect.Modifier.isPrivate;
+import static org.objectweb.asm.Opcodes.*;
 
 // this is needed only in dev environment to get deobfuscated version of OptiFine running
 public class OptifineDevTransformerWrapper implements IClassTransformer {
 
     // TODO: will it work on windows?
     private static final String MC_JAR = System.getProperty("ofdev.mcjar",
-            System.getProperty("user.home") + "/.gradle/caches/minecraft/net/minecraft/minecraft/" +
-                    UtilsLW.mcVersion() + "/minecraft-" + UtilsLW.mcVersion() + ".jar");
+            System.getProperty("user.home") + "/.gradle/caches/forge_gradle/minecraft_repo/versions/" +
+                    UtilsLW.mcVersion() + "/client.jar");
 
 
     private static final FileSystem mcJar;
