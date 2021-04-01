@@ -56,6 +56,9 @@ public class OptifineDevTweakerWrapper implements ITweaker {
         Set<String> transformerExceptions =
                 UtilsLW.getFieldValue(LaunchClassLoader.class, Launch.classLoader, "transformerExceptions");
         transformerExceptions.removeIf(t -> t.startsWith("optifine"));
+        transformerExceptions.add("optifine.Patcher");
+        transformerExceptions.add("optifine.xdelta.");
+        transformerExceptions.add("optifine.HashUtils");
 
         // OptiFine tweaker constructed new instance of optifine transformer, so it changed it's instance field
         // now that OptiFine tweaker setup is done,fix it
